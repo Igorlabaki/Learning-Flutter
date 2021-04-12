@@ -13,20 +13,39 @@ class PerguntaApp extends StatefulWidget {
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  var _totalPontos = 0;
   final _perguntas = const [
     {
       'texto': 'Qual a sua cor favorita',
-      'respostas': ['Azul', 'Amarelo', 'Branca', 'Verde']
+      'respostas': [
+        {'texto': 'Azul', 'pontos': 1},
+        {'texto': 'Amarelo', 'pontos': 2},
+        {'texto': 'Branca', 'pontos': 3},
+        {'texto': 'Verde', 'pontos': 4},
+      ]
     },
     {
       'texto': 'Qual a seu animal favorito',
-      'respostas': ['Cachorro', 'Vaca', 'Coelho', 'Gato']
+      'respostas': [
+        {'texto': 'Cachorro', 'pontos': 1},
+        {'texto': 'Vaca', 'pontos': 2},
+        {'texto': 'Coelho', 'pontos': 3},
+        {'texto': 'Gato', 'pontos': 4},
+      ]
     },
   ];
 
-  void _responder() {
+  void _responder(int pontuacao) {
     setState(() {
       _perguntaSelecionada++;
+      _totalPontos += pontuacao;
+    });
+  }
+
+  void _reiniciarQuestionairo() {
+    setState(() {
+      _perguntaSelecionada = 0;
+      _totalPontos = 0;
     });
   }
 
@@ -46,7 +65,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
               perguntas: _perguntas,
               perguntaSelecionada: _perguntaSelecionada,
               responder: _responder)
-          : Resultado(),
+          : Resultado(_totalPontos, _reiniciarQuestionairo),
     ));
   }
 }
